@@ -1,0 +1,9 @@
+Package: [[name]]
+Version: [[version]]
+Section: misc
+Priority: optional
+Architecture: all
+Depends: openjdk-7-jre-headless (>= 1.7)
+Maintainer: Stefan Erichsen <stefan@balticfinance.com>
+Description: XML schema validation utility
+Distribution: development
