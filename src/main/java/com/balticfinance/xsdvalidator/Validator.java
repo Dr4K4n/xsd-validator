@@ -49,7 +49,7 @@ public class Validator {
     public static void main(String[] args) {
 
         parseArgs(args);
-        SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
+        SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/XML/XMLSchema/v1.1");
 
         File xsdFile = new File(mXSDFileName);
         File[] xmlFiles = new File[mXMLFileNames.length];
