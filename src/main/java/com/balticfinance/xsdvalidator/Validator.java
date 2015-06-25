@@ -33,12 +33,15 @@ public class Validator {
 
     private static final Config applicationConfig = new Config();
 
-    private final static int VALIDATION_FAIL = 1;
-    private final static int ERROR_READING_SCHEMA = 2;
-    private final static int ERROR_READING_XML = 3;
+    private static final int VALIDATION_FAIL = 1;
+    private static final int ERROR_READING_SCHEMA = 2;
+    private static final int ERROR_READING_XML = 3;
 
     private static String mXSDFileName;
     private static String[] mXMLFileNames;
+
+    private Validator() {
+    }
 
     /**
      * @param args
@@ -48,17 +51,17 @@ public class Validator {
         parseArgs(args);
         SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
 
-        File XSDFile = new File(mXSDFileName);
-        File[] XMLFiles = new File[mXMLFileNames.length];
+        File xsdFile = new File(mXSDFileName);
+        File[] xmlFiles = new File[mXMLFileNames.length];
         for (int i = 0; i < mXMLFileNames.length; i++) {
-            XMLFiles[i] = new File(mXMLFileNames[i]);
+            xmlFiles[i] = new File(mXMLFileNames[i]);
         }
 
         try {
-            Schema schema = factory.newSchema(XSDFile);
+            Schema schema = factory.newSchema(xsdFile);
             javax.xml.validation.Validator validator = schema.newValidator();
 
-            for (File xmlFile : XMLFiles) {
+            for (File xmlFile : xmlFiles) {
                 Source source = new StreamSource(xmlFile);
 
                 try {
@@ -108,9 +111,9 @@ public class Validator {
 
             // "wordy" arguments
 
-            if (currentArg.equals("--version")) {
+            if ("--version".equals(currentArg)) {
                 printVersionAndExit();
-            } else if (currentArg.equals("--help")) {
+            } else if ("--help".equals(currentArg)) {
                 printHelpAndExit();
             } else {
 
