@@ -12,4 +12,11 @@ public class ValidatorTest {
         Assert.assertTrue(true);
     }
 
+    @Test
+    public void testMainMultiple() {
+        String[] args = { "src/test/resources/test.xsd", "src/test/resources/test.xml", "src/test/resources/test.xml" };
+        Validator.main(args);
+        Assert.assertTrue(true);
+    }
+
 }

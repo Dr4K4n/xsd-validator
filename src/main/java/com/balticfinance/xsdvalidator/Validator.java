@@ -19,6 +19,7 @@ package com.balticfinance.xsdvalidator;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -37,7 +38,7 @@ public class Validator {
     private final static int ERROR_READING_XML = 3;
 
     private static String mXSDFileName;
-    private static String mXMLFileName;
+    private static String[] mXMLFileNames;
 
     /**
      * @param args
@@ -48,34 +49,38 @@ public class Validator {
         SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
 
         File XSDFile = new File(mXSDFileName);
-        File XMLFile = new File(mXMLFileName);
+        File[] XMLFiles = new File[mXMLFileNames.length];
+        for (int i = 0; i < mXMLFileNames.length; i++) {
+            XMLFiles[i] = new File(mXMLFileNames[i]);
+        }
 
         try {
             Schema schema = factory.newSchema(XSDFile);
             javax.xml.validation.Validator validator = schema.newValidator();
 
-            Source source = new StreamSource(XMLFile);
+            for (File xmlFile : XMLFiles) {
+                Source source = new StreamSource(xmlFile);
 
-            try {
-                validator.validate(source);
-                System.out.println(mXMLFileName + " validates");
-            } catch (SAXParseException ex) {
-                System.out.println(mXMLFileName + " fails to validate because: \n");
-                System.out.println(ex.getMessage());
-                System.out.println("At: " + ex.getLineNumber() + ":" + ex.getColumnNumber());
-                System.out.println();
-                System.exit(VALIDATION_FAIL);
-            } catch (SAXException ex) {
-                System.out.println(mXMLFileName + " fails to validate because: \n");
-                System.out.println(ex.getMessage());
-                System.out.println();
-                System.exit(VALIDATION_FAIL);
-            } catch (IOException io) {
-                System.err.println("Error reading XML source: " + mXMLFileName);
-                System.err.println(io.getMessage());
-                System.exit(ERROR_READING_XML);
+                try {
+                    validator.validate(source);
+                    System.out.println(xmlFile.getName() + " validates");
+                } catch (SAXParseException ex) {
+                    System.out.println(xmlFile.getName() + " fails to validate because: \n");
+                    System.out.println(ex.getMessage());
+                    System.out.println("At: " + ex.getLineNumber() + ":" + ex.getColumnNumber());
+                    System.out.println();
+                    System.exit(VALIDATION_FAIL);
+                } catch (SAXException ex) {
+                    System.out.println(xmlFile.getName() + " fails to validate because: \n");
+                    System.out.println(ex.getMessage());
+                    System.out.println();
+                    System.exit(VALIDATION_FAIL);
+                } catch (IOException io) {
+                    System.err.println("Error reading XML source: " + xmlFile.getName());
+                    System.err.println(io.getMessage());
+                    System.exit(ERROR_READING_XML);
+                }
             }
-
         } catch (SAXException sch) {
             System.err.println("Error reading XML Schema: " + mXSDFileName);
             System.err.println(sch.getMessage());
@@ -129,13 +134,13 @@ public class Validator {
             }
         }
 
-        if ((argNo + 2) != args.length) {
-            // Not given 2 files on input
+        if ((argNo + 2) > args.length) {
+            // Not given at least 2 files on input
             printUsageAndExit();
         }
 
         mXSDFileName = args[argNo];
-        mXMLFileName = args[++argNo];
+        mXMLFileNames = Arrays.copyOfRange(args, ++argNo, args.length);
     }
 
     /**
@@ -143,14 +148,16 @@ public class Validator {
      */
     public static void printUsageAndExit() {
 
-        System.err.println("Usage: " + applicationConfig.getApplicationName() + " [OPTION]... XSDFILE XMLFILE");
+        System.err.println("Usage: " + applicationConfig.getApplicationName()
+                + " [OPTION]... XSDFILE XMLFILE [XMLFILE...]");
         System.exit(2); // 2 indicates incorrect usage
     }
 
     public static void printHelpAndExit() {
 
-        System.out.print("\nUsage: " + applicationConfig.getApplicationName() + " [OPTION]... XSDFILE XMLFILE\n\n "
-                + "Validates the XML document at XMLFILE against the XML Schema at" + " XSDFILE.\n\n"
+        System.out.print("\nUsage: " + applicationConfig.getApplicationName()
+                + " [OPTION]... XSDFILE XMLFILE [XMLFILE...]\n\n "
+                + "Validates the XML document(s) at XMLFILE against the XML Schema at" + " XSDFILE.\n\n"
                 + "--version  -V  Output version number.\n" + "--help  -h  Output this help.\n");
 
         System.exit(0);
