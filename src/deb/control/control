@@ -3,7 +3,7 @@ Version: [[version]]
 Section: misc
 Priority: optional
 Architecture: all
-Depends: openjdk-7-jre-headless (>= 1.7)
+Depends: openjdk-7-jre-headless | openjdk-8-jre-headless | openjdk-9-jre-headless | openjdk-7-jre | openjdk-8-jre | openjdk-9-jre | default-jre
 Maintainer: Stefan Erichsen <stefan@balticfinance.com>
 Description: XML schema validation utility
 Distribution: development

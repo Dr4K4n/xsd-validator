@@ -2,12 +2,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>xsdvalidator</artifactId>
-	<version>1.1.4-SNAPSHOT</version>
+	<version>1.1.4</version>
 
 	<parent>
 		<groupId>com.balticfinance</groupId>
 		<artifactId>balticfinance-parent</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.1</version>
 	</parent>
 
 	<dependencies>
@@ -92,9 +92,17 @@
 							<goal>jdeb</goal>
 						</goals>
 						<configuration>
+							<signPackage>true</signPackage>
+							<signMethod>dpkg-sig</signMethod>
+							<signRole>builder</signRole>
+							<keyring>/var/lib/jenkins/.gnupg/secring.gpg</keyring>
+							<key>C0C5E8A7</key>
+							<passphrase>aitie4Ie</passphrase>
+
+                            <!-- It's important to use a classifier or the deb artifact will not
+                                be indexed by the nexus indexer -->
 							<classifier>all</classifier>
-							<!-- It's important to use a classifier or the deb artifact will not 
-								be indexed by the nexus indexer -->
+
 							<dataSet>
 								<data>
 									<type>file</type>
