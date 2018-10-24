@@ -2,12 +2,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>xsdvalidator</artifactId>
-	<version>1.1.4</version>
+	<version>1.1.5-SNAPSHOT</version>
 
 	<parent>
 		<groupId>com.balticfinance</groupId>
 		<artifactId>balticfinance-parent</artifactId>
-		<version>1.0.1</version>
+		<version>2.0.4</version>
 	</parent>
 
 	<dependencies>
@@ -20,7 +20,7 @@
 		<dependency>
 			<groupId>xerces</groupId>
 			<artifactId>xercesImpl</artifactId>
-			<version>2.11.1</version>
+			<version>2.12.0</version>
 		</dependency>
 	</dependencies>
 
@@ -35,7 +35,6 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.7</version>
 				<executions>
 					<execution>
 						<id>copy-resources</id>
@@ -62,7 +61,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>2.4</version>
+				<version>3.2.0</version>
 				<configuration>
 					<transformers>
 						<transformer
@@ -84,7 +83,7 @@
 			<plugin>
 				<artifactId>jdeb</artifactId>
 				<groupId>org.vafer</groupId>
-				<version>1.4</version>
+				<version>1.7</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -95,7 +94,7 @@
 							<signPackage>true</signPackage>
 							<signMethod>dpkg-sig</signMethod>
 							<signRole>builder</signRole>
-							<keyring>/var/lib/jenkins/.gnupg/secring.gpg</keyring>
+							<keyring>.gnupg/secring.gpg</keyring>
 							<key>C0C5E8A7</key>
 							<passphrase>aitie4Ie</passphrase>
 

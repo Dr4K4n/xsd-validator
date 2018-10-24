@@ -66,20 +66,20 @@ public class Validator {
 
                 try {
                     validator.validate(source);
-                    System.out.println(xmlFile.getName() + " validates");
+                    System.out.println(xmlFile.getPath() + " validates");
                 } catch (SAXParseException ex) {
-                    System.out.println(xmlFile.getName() + " fails to validate because: \n");
+                    System.out.println(xmlFile.getPath() + " fails to validate because: \n");
                     System.out.println(ex.getMessage());
                     System.out.println("At: " + ex.getLineNumber() + ":" + ex.getColumnNumber());
                     System.out.println();
                     System.exit(VALIDATION_FAIL);
                 } catch (SAXException ex) {
-                    System.out.println(xmlFile.getName() + " fails to validate because: \n");
+                    System.out.println(xmlFile.getPath() + " fails to validate because: \n");
                     System.out.println(ex.getMessage());
                     System.out.println();
                     System.exit(VALIDATION_FAIL);
                 } catch (IOException io) {
-                    System.err.println("Error reading XML source: " + xmlFile.getName());
+                    System.err.println("Error reading XML source: " + xmlFile.getPath());
                     System.err.println(io.getMessage());
                     System.exit(ERROR_READING_XML);
                 }
